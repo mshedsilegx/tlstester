@@ -125,6 +125,7 @@ func main() {
 			fmt.Println("  Root CA:", tlsConn.ConnectionState().PeerCertificates[len(tlsConn.ConnectionState().PeerCertificates)-1].Subject)
 		}
 
+		fmt.Println("  Expiration Date:", cert.NotAfter.Format(time.RFC3339))
 		fmt.Println("  Protocol:", tls.VersionName(tlsConn.ConnectionState().Version))
 		fmt.Println("  Cipher Suite:", tls.CipherSuiteName(tlsConn.ConnectionState().CipherSuite))
 		return
