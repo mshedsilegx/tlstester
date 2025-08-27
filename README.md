@@ -14,7 +14,7 @@ The main objectives of this tool are:
 ## Command-Line Syntax
 
 ```
-go run . [flags]
+tlstester [flags]
 ```
 
 ### Flags
@@ -36,33 +36,33 @@ go run . [flags]
 
 To perform a basic test against a host:
 ```sh
-go run . -hostport google.com:443
+tlstester -hostport google.com:443
 ```
 
 ### Test a Specific TLS Version
 
 To test the connection using TLS 1.2:
 ```sh
-go run . -hostport google.com:443 -tls TLS1.2
+tlstester -hostport google.com:443 -tls TLS1.2
 ```
 
 ### Test a Specific Cipher Suite
 
 To test the connection using a specific cipher suite:
 ```sh
-go run . -hostport google.com:443 -cipher TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+tlstester -hostport google.com:443 -cipher TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
 ```
 
 ### Use a Custom Keystore
 
 To use a custom trusted keystore for verification:
 ```sh
-go run . -hostport my-internal-host:443 -keystore /path/to/my/ca.pem
+tlstester -hostport my-internal-host:443 -keystore /path/to/my/ca.pem
 ```
 
 ### Skip Certificate Verification
 
 To skip the chain of trust verification (unsafe, for testing only):
 ```sh
-go run . -hostport self-signed.server:443 -insecure
+tlstester -hostport self-signed.server:443 -insecure
 ```
