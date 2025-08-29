@@ -1,22 +1,30 @@
 # Security Policy
 
+We are committed to ensuring the security of our application, and addressing security issues with a high priority.
+
 ## Supported Versions
 
-This project is in active development, and security updates will be provided for the latest version.
-
-| Version | Supported          |
-| ------- | ------------------ |
-| 1.x.x   | :white_check_mark: |
+We recommend always using the latest commit from the `main` branch, as we currently do not have a formal versioning scheme with designated security support.
 
 ## Reporting a Vulnerability
 
-We take all security bugs in this project seriously. If you discover a security issue, please report it to us by creating an issue in this repository. We appreciate your efforts to disclose your findings responsibly.
+If you discover a security vulnerability, please report via the following methods:
 
-When reporting a vulnerability, please include the following details:
-- A description of the vulnerability and its potential impact.
+1.  **Email** to `mis@criticalsys.net`. We will respond to your report within 48 hours.
+2.  **GitHub Private Vulnerability Reporting**: If this feature is enabled for the repository, please use it to submit your report. This is the most secure and preferred method.
+3.  **Create a Confidential Issue**: If private vulnerability reporting is not available, please create an issue on our GitHub repository. Please provide a clear and descriptive title, such as "Security Vulnerability: [Brief Description]", and include as much detail as possible in the issue description. If you have the option to make the issue confidential, please do so.
+
+Please include the following information in your report:
+- A clear description of the vulnerability.
 - Steps to reproduce the vulnerability.
-- Any proof-of-concept code or scripts.
+- The version of the application you are using.
+- The potential impact of the vulnerability.
+- Any suggested mitigations or fixes, if you have them.
 
-We will acknowledge your report within 48 hours and will work with you to address the issue promptly. We will also keep you informed of our progress.
+We appreciate your efforts to responsibly disclose your findings, and we will make every effort to acknowledge your contributions.
+We will make our best effort to respond to your report promptly, acknowledge the issue, and keep you updated on our progress toward a fix.
+We kindly ask that you do not disclose the vulnerability publicly until we have had a chance to address it.
 
-Thank you for helping to keep this project secure.
+Please do not report security vulnerabilities through public GitHub issues nor PR.
+
+Thank you for helping to keep our project secure.
