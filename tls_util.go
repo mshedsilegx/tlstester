@@ -85,7 +85,7 @@ func ConnectTLS(cfg *Config, tlsConfig *tls.Config) (*tls.Conn, error) {
 	tlsConn := tls.Client(conn, tlsConfig)
 	err = tlsConn.Handshake()
 	if err != nil {
-		conn.Close()
+		_ = conn.Close()
 		return nil, fmt.Errorf("TLS Handshake failed: %w", err)
 	}
 

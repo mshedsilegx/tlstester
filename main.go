@@ -30,7 +30,11 @@ func main() {
 		fmt.Println("Error connecting:", err)
 		os.Exit(1)
 	}
-	defer conn.Close()
+	defer func() {
+		if err := conn.Close(); err != nil {
+			fmt.Fprintf(os.Stderr, "Error closing connection: %v\n", err)
+		}
+	}()
 
 	PrintConnectionState(conn)
 }
