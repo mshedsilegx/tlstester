@@ -6,17 +6,20 @@ import (
 	"time"
 )
 
+// Config holds the application configuration parameters for the TLS test.
 type Config struct {
-	Hostport           string
-	Timeout            time.Duration
-	Retries            int
-	TLSVersion         string
-	CipherSuite        string
-	Keystore           string
-	InsecureSkipVerify bool
-	Version            bool
+	Hostport           string        // Target address in host:port format
+	Timeout            time.Duration // Connection timeout
+	Retries            int           // Number of connection attempts
+	TLSVersion         string        // Requested TLS version (e.g., "TLS1.2")
+	CipherSuite        string        // Specific cipher suite name
+	Keystore           string        // Path to custom CA certificate file
+	InsecureSkipVerify bool          // Whether to skip server certificate validation
+	Version            bool          // Whether to just print the version and exit
 }
 
+// ParseFlags parses command-line flags and returns a Config pointer.
+// It also handles the basic validation of required flags.
 func ParseFlags(version string) (*Config, error) {
 	cfg := &Config{}
 

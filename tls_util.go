@@ -7,11 +7,14 @@ import (
 	"time"
 )
 
+// CreateTLSConfig initializes a tls.Config based on the provided application configuration.
 func CreateTLSConfig(cfg *Config) (*tls.Config, error) {
 	tlsConfig := &tls.Config{
+		// #nosec G402: InsecureSkipVerify is configurable for testing purposes.
 		InsecureSkipVerify: cfg.InsecureSkipVerify,
 	}
 
+	// Set ServerName for SNI if verification is enabled
 	if !cfg.InsecureSkipVerify {
 		hostname, _, err := net.SplitHostPort(cfg.Hostport)
 		if err != nil {
@@ -20,6 +23,7 @@ func CreateTLSConfig(cfg *Config) (*tls.Config, error) {
 		tlsConfig.ServerName = hostname
 	}
 
+	// Configure specific TLS version if requested
 	if cfg.TLSVersion != "" {
 		switch cfg.TLSVersion {
 		case "TLS1.0":
@@ -39,6 +43,7 @@ func CreateTLSConfig(cfg *Config) (*tls.Config, error) {
 		}
 	}
 
+	// Configure specific cipher suite if requested
 	if cfg.CipherSuite != "" {
 		var ciphers []uint16
 		for _, suite := range tls.CipherSuites() {
@@ -53,6 +58,7 @@ func CreateTLSConfig(cfg *Config) (*tls.Config, error) {
 		tlsConfig.CipherSuites = ciphers
 	}
 
+	// Load custom CA certificates if a keystore path is provided
 	if cfg.Keystore != "" {
 		certs, err := loadKeystore(cfg.Keystore)
 		if err != nil {
@@ -64,10 +70,12 @@ func CreateTLSConfig(cfg *Config) (*tls.Config, error) {
 	return tlsConfig, nil
 }
 
+// ConnectTLS establishes a TCP connection and performs the TLS handshake with retries.
 func ConnectTLS(cfg *Config, tlsConfig *tls.Config) (*tls.Conn, error) {
 	var conn net.Conn
 	var err error
 
+	// Attempt to connect with retries
 	for i := 0; i <= cfg.Retries; i++ {
 		conn, err = net.DialTimeout("tcp", cfg.Hostport, cfg.Timeout)
 		if err == nil {
@@ -82,6 +90,7 @@ func ConnectTLS(cfg *Config, tlsConfig *tls.Config) (*tls.Conn, error) {
 		return nil, fmt.Errorf("connection failed after %d retries: %w", cfg.Retries+1, err)
 	}
 
+	// Wrap the TCP connection with TLS and perform handshake
 	tlsConn := tls.Client(conn, tlsConfig)
 	err = tlsConn.Handshake()
 	if err != nil {
@@ -92,6 +101,7 @@ func ConnectTLS(cfg *Config, tlsConfig *tls.Config) (*tls.Conn, error) {
 	return tlsConn, nil
 }
 
+// PrintConnectionState displays details about the established TLS connection.
 func PrintConnectionState(conn *tls.Conn) {
 	cert := conn.ConnectionState().PeerCertificates[0]
 	fmt.Println("Certificate Information:")
@@ -99,6 +109,7 @@ func PrintConnectionState(conn *tls.Conn) {
 	fmt.Println("  SAN:", cert.DNSNames)
 	fmt.Println("  Issuer:", cert.Issuer)
 
+	// Display Root CA if present in the chain
 	if len(conn.ConnectionState().PeerCertificates) > 1 {
 		fmt.Println("  Root CA:", conn.ConnectionState().PeerCertificates[len(conn.ConnectionState().PeerCertificates)-1].Subject)
 	}
